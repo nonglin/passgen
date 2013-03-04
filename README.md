@@ -1,6 +1,11 @@
 # passgen
 
-A [Heroku](http://www.heroku.com) web app using Compojure.
+Website for creating secure and memorable passwords.
+
+Creates passwords, based on a song or idiom, which are easy
+to remember but difficult to guess.
+
+A [Heroku](http://www.heroku.com) web app.
 
 This generated project has a few basics set up beyond the bare Compojure defaults:
 
@@ -76,6 +81,6 @@ which can be very useful for debugging or inspecting live data.
 
 ## License
 
-Copyright © 2013 FIXME
+Copyright © 2013 Nong Watanabe
 
 Distributed under the Eclipse Public License, the same as Clojure.
