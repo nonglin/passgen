@@ -9,7 +9,9 @@
             [ring.adapter.jetty :as jetty]
             [ring.middleware.basic-authentication :as basic]
             [cemerick.drawbridge :as drawbridge]
-            [environ.core :refer [env]]))
+            [environ.core :refer [env]]
+            [hiccup.page :refer [html5]]
+            [hiccup.element :refer [link-to]]))
 
 (defn- authenticated? [user pass]
   ;; TODO: heroku config:add REPL_USER=[...] REPL_PASSWORD=[...]
@@ -20,13 +22,26 @@
       (session/wrap-session)
       (basic/wrap-basic-authentication authenticated?)))
 
+(defn layout [& body]
+  (html5
+   [:head
+    [:title "Password Generator"]]
+   [:body body]))
+
+(defn index [category]
+  (layout
+   [:h1 "Secure, memorable passwords"]
+   [:p "Choose an interest that your password will be based on:"]
+   [:p (link-to "/?category=itsybitsy" "Itsy Bitsy Spider")]
+   [:p (link-to "/?category=rollingdeep" "Adele - Rolling in the Deep")]))
+
 (defroutes app
   (ANY "/repl" {:as req}
        (drawbridge req))
   (GET "/" []
        {:status 200
-        :headers {"Content-Type" "text/plain"}
-        :body (pr-str ["Hello" :from 'Heroku])})
+        :headers {"Content-Type" "text/html"}
+        :body (index nil)})
   (ANY "*" []
        (route/not-found (slurp (io/resource "404.html")))))
 
